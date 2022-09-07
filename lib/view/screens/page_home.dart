@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_networkimage_2/provider.dart';
 import 'package:flutter_mvvm/model/product_list_model.dart';
 import 'package:flutter_mvvm/view_model/product_view_model.dart';
 import 'package:provider/provider.dart';
@@ -55,8 +56,19 @@ class PageHome extends StatelessWidget {
       children:
           List.generate(productViewModel.productListModel!.length, (index) {
         Result productListModel = productViewModel.productListModel![index];
-        return Center(
-          child: Text(productListModel.title.toString()),
+        return Column(
+          children: [
+            ClipRRect(
+              child: Image(
+                image: AdvancedNetworkImage(
+                  productListModel.thumbnail.toString(),
+                ),
+                fit: BoxFit.fill,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text('${productListModel.title.toString().substring(0, 25)}...')
+          ],
         );
       }),
     );
