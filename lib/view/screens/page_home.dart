@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mvvm/model/product_list_model.dart';
+import 'package:flutter_mvvm/view_model/product_view_model.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/drawer/navigation_drawer.dart';
 
-class PageHome extends StatefulWidget {
+class PageHome extends StatelessWidget {
   const PageHome({Key? key}) : super(key: key);
 
   @override
-  State<PageHome> createState() => _PageHomeState();
-}
-
-final ScrollController _scrollController = ScrollController();
-
-class _PageHomeState extends State<PageHome> {
-  @override
   Widget build(BuildContext context) {
+    ProductViewModel productViewModel = context.watch<ProductViewModel>();
     return Scaffold(
         appBar: AppBar(
             leading: Builder(builder: (context) {
@@ -39,16 +36,37 @@ class _PageHomeState extends State<PageHome> {
               ),
             ]),
         drawer: const NavigationDrawer(),
-        body: GridView.count(
-          crossAxisCount: 2,
-          children: List.generate(100, (index) {
-            return Center(
-              child: Text(
-                'Item $index',
-                style: Theme.of(context).textTheme.headline5,
-              ),
-            );
-          }),
-        ));
+        body: listViewProducts(productViewModel));
+  }
+
+  listViewProducts(ProductViewModel productViewModel) {
+    if (productViewModel.loading) {
+      return const CircularProgressIndicator(
+        color: Colors.black,
+      );
+    }
+    // if (usersViewModel.userError != null) {
+    //   return AppError(
+    //     errortxt: usersViewModel.userError.message,
+    //   );
+    // }
+    // return GridView.count(
+    //   crossAxisCount: 2,
+    //   children: List.generate(100, (index) {
+    // return Center(
+    //   child: Text(
+    //     'Item $index',
+    //   ),
+    // );
+    //   }),
+    // );
+    return ListView.separated(
+      itemBuilder: (context, index) {
+        Result productListModel = productViewModel.productListModel![index];
+        return Text(productListModel.title.toString());
+      },
+      separatorBuilder: (context, index) => Divider(),
+      itemCount: productViewModel.productListModel!.length,
+    );
   }
 }

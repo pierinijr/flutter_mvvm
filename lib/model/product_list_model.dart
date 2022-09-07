@@ -1,15 +1,12 @@
-// To parse this JSON data, do
-//
-//     final welcome = welcomeFromJson(jsonString);
-
 import 'dart:convert';
 
-Welcome welcomeFromJson(String str) => Welcome.fromJson(json.decode(str));
+ProductListModel productModelFromJson(String str) =>
+    ProductListModel.fromJson(json.decode(str));
 
-String welcomeToJson(Welcome data) => json.encode(data.toJson());
+String productModelToJson(ProductListModel data) => json.encode(data.toJson());
 
-class Welcome {
-  Welcome({
+class ProductListModel {
+  ProductListModel({
     this.siteId,
     this.query,
     this.paging,
@@ -21,12 +18,13 @@ class Welcome {
   Paging? paging;
   List<Result>? results;
 
-  factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
+  factory ProductListModel.fromJson(Map<String, dynamic> json) =>
+      ProductListModel(
         siteId: json["site_id"],
         query: json["query"],
         paging: Paging.fromJson(json["paging"]),
         results:
-            List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
+             List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -90,17 +88,17 @@ class Result {
   String? siteId;
   String? title;
   Seller? seller;
-  int? price;
+  dynamic price;
   String? currencyId;
-  int? availableQuantity;
-  int? soldQuantity;
+  dynamic availableQuantity;
+  dynamic soldQuantity;
   String? condition;
   String? permalink;
   String? thumbnail;
   String? thumbnailId;
   Address? address;
   Shipping? shipping;
-  int? originalPrice;
+  dynamic originalPrice;
   String? domainId;
   String? catalogProductId;
 
@@ -179,7 +177,7 @@ class Seller {
     this.permalink,
   });
 
-  int? id;
+  dynamic id;
   String? permalink;
 
   factory Seller.fromJson(Map<String, dynamic> json) => Seller(
