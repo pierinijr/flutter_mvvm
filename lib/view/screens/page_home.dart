@@ -50,23 +50,15 @@ class PageHome extends StatelessWidget {
     //     errortxt: usersViewModel.userError.message,
     //   );
     // }
-    // return GridView.count(
-    //   crossAxisCount: 2,
-    //   children: List.generate(100, (index) {
-    // return Center(
-    //   child: Text(
-    //     'Item $index',
-    //   ),
-    // );
-    //   }),
-    // );
-    return ListView.separated(
-      itemBuilder: (context, index) {
+    return GridView.count(
+      crossAxisCount: 2,
+      children:
+          List.generate(productViewModel.productListModel!.length, (index) {
         Result productListModel = productViewModel.productListModel![index];
-        return Text(productListModel.title.toString());
-      },
-      separatorBuilder: (context, index) => Divider(),
-      itemCount: productViewModel.productListModel!.length,
+        return Center(
+          child: Text(productListModel.title.toString()),
+        );
+      }),
     );
   }
 }
